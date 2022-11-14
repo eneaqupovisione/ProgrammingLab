@@ -1,2 +1,2 @@
 # ProgrammingLab
-Khin Uh-buh
+Khin Uh-buh (a Chinese mythology hero)
