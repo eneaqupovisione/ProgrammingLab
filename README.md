@@ -1,2 +1,2 @@
 # ProgrammingLab
-Bukh khin
+Khin Uh-buh
