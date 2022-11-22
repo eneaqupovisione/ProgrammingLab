@@ -1,17 +1,17 @@
-valori=[]
-my_file=open('shampoo_sales.csv', 'r')
+def sum_csv(file_name):
+    somma = 0.0
+my_file = open(file_name, 'r')
 for line in my_file:
-    elementi=line.split(',')
-    if elementi[0] != 'Date':
-        valore = elementi[1]
-return valore
-valori.append(valore)
-def Somma(valori):
-    if  len(valori)== 0: 
-        return None
+    elements = line.strip('\n').split(',')
+    if elements[0] == 'Date':
+        continue
     else:
-        Totale_vendite = 0
-        for number in valori:
-            Totale_vendite += number
-        return Totale_vendite
-        
+        try:
+            somma = somma + float(elements[1])
+        except ValueError:
+            print('Error: detected string value, expected int or float')
+            
+    
+    if somma == 0.0:
+        return None
+    return somma
