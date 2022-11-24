@@ -1,2 +1,0 @@
-list=[]
-Sum=sum(list)

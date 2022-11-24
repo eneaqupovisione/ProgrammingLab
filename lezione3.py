@@ -8,7 +8,7 @@ for line in my_file:
     else:
         try:
             somma = somma + float(elements[1])
-        except ValueError:
+        except OsError:
             print('Error: detected string value, expected int or float')
             
     
