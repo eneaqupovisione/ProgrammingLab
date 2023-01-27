@@ -1,42 +1,31 @@
-language = "bash"
-run = "/bin/bash"
-
-[env]
-VIRTUAL_ENV = "/home/runner/${REPL_SLUG}/venv"
-PATH = "${VIRTUAL_ENV}/bin"
-PYTHONPATH = "${VIRTUAL_ENV}/lib/python3.10/site-packages"
-REPLIT_POETRY_PYPI_REPOSITORY = "https://package-proxy.replit.com/pypi/"
-MPLBACKEND = "TkAgg"
-POETRY_CACHE_DIR = "${HOME}/${REPL_SLUG}/.cache/pypoetry"
+compile = ["make", "-s"]
+run = "./main"
+entrypoint = "main.c"
+hidden = ["main", "main-debug", "**/*.o", "**/*.d", ".ccls-cache", "Makefile"]
 
 [nix]
-channel = "stable-21_11"
+channel = "stable-22_11"
 
-[packager]
-language = "python3"
-ignoredPackages = ["unit_tests"]
-
-[packager.features]
-enabledForHosting = false
-packageSearch = true
-guessImports = true
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", ".ccls-cache"]
 
 [debugger]
 support = true
 
-[debugger.interactive]
-transport = "localhost:0"
-startCommand = ["dap-python", "main.py"]
+[debugger.compile]
+command = ["make", "main-debug"]
+noFileArgs = true
 
-[debugger.interactive.integratedAdapter]
-dapTcpAddress = "localhost:0"
+[debugger.interactive]
+transport = "stdio"
+startCommand = ["dap-cpp"]
 
 [debugger.interactive.initializeMessage]
 command = "initialize"
 type = "request"
 
 [debugger.interactive.initializeMessage.arguments]
-adapterID = "debugpy"
+adapterID = "cppdbg"
 clientID = "replit"
 clientName = "replit.com"
 columnsStartAt1 = true
@@ -50,12 +39,30 @@ supportsVariablePaging = true
 supportsVariableType = true
 
 [debugger.interactive.launchMessage]
-command = "attach"
+command = "launch"
 type = "request"
 
 [debugger.interactive.launchMessage.arguments]
+MIMode = "gdb"
+arg = []
+cwd = "."
+environment = []
+externalConsole = false
+logging = {}
+miDebuggerPath = "gdb"
+name = "g++ - Build and debug active file"
+program = "./main-debug"
+request = "launch"
+setupCommands = [
+	{ description = "Enable pretty-printing for gdb", ignoreFailures = true, text = "-enable-pretty-printing" }
+]
+stopAtEntry = false
+type = "cppdbg"
 
-[debugger.interactive.launchMessage.arguments.logging]
+[languages]
 
-[unitTest]
-language = "python3"
+[languages.c]
+pattern = "**/*.{c,h}"
+
+[languages.c.languageServer]
+start = "ccls"
